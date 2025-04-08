@@ -1,6 +1,7 @@
 from collections import UserDict
 from datetime import datetime, timedelta, date
 from error_handler import PhoneValidationError, BirthdayValidationError
+import re
 
 class Field:
     def __init__(self, value):
@@ -24,12 +25,25 @@ class Birthday(Field):
             self.value = datetime.strptime(value, "%d.%m.%Y").date()
         except ValueError:
             raise BirthdayValidationError()
+        
+class Email(Field):
+    def __init__(self, value):
+        if self.is_valid_email(value):
+            super().__init__(value)
+        else:
+            raise ValueError("Invalid email address: {value}")   #Need to add this exeption to the error handler
+
+    def is_valid_email(self, value):
+        # Simple and general regex for emails
+        pattern = r"^[\w\.-]+@[\w\.-]+\.\w{2,}$"
+        return re.match(pattern, value) is not None
 
 class Record:
     def __init__(self, name):
         self.name = Name(name)
         self.phones = []
         self.birthday = None
+        self.emails = []
 
     def add_phone(self, phone):
         self.phones.append(Phone(phone))
@@ -53,10 +67,31 @@ class Record:
     def add_birthday(self, birthday_str):
         self.birthday = Birthday(birthday_str)
 
+    def add_email(self, email_str):
+        self.emails.append(Email(email_str))
+
+    def edit_email(self, old_email, new_email):
+          "This method checks that if the old email is exist in the list and edit it "
+          for e in self.emails:
+                if e.value == old_email: 
+                    e.value = Email(new_email).value
+                    return
+          raise ValueError("Email is not found") #Need to add this exeption to the error handler
+    
+    def remove_email(self, email):
+        "This method checks if the email number exists in the list and deletes it"
+        for e in self.emails:
+              if e.value == email:
+                  self.emails.remove(e)
+                  return
+        raise ValueError("Email is not found") #Need to add this exeption to the error handler
+     
+
     def __str__(self):
         phones = '; '.join(p.value for p in self.phones)
         bday = f", birthday: {self.birthday.value.strftime('%d.%m.%Y')}" if self.birthday else ""
-        return f"Contact name: {self.name.value}, phones: {phones}{bday}"
+        emails = '; '.join(e.value for e in self.emails)
+        return f"Contact name: {self.name.value}, phones: {phones} {emails} {bday}"
 
 class AddressBook(UserDict):
     def add_record(self, record):
