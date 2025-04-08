@@ -1,6 +1,7 @@
 from utils import parse_input, save_data, load_data
 from handlers import add_contact, edit_contact, get_contact, birthdays, add_birthday, show_birthday
 from address_book import AddressBook
+from command_matcher import match_command, KNOWN_COMMANDS
 
 def main():
     book = load_data()
@@ -8,6 +9,19 @@ def main():
     while True:
         user_input = input("Enter a command: ")
         command, *args = parse_input(user_input)
+
+        if command not in KNOWN_COMMANDS:
+            suggestion = match_command(command)
+            if suggestion:
+                confirm = input(f"Did you mean '{suggestion}'? (y/n): ")
+                if confirm.lower() == "y":
+                    command = suggestion
+                else:
+                    print("Unknown command.")
+                    return
+            else:
+                print("Unknown command.")
+                return
 
         match command:
             case x if x in ["close", "exit"]:
