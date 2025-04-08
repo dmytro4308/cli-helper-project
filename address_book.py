@@ -69,7 +69,7 @@ class AddressBook(UserDict):
         if name in self.data:
             del self.data[name]
 
-    def get_upcoming_birthdays(self):
+    def get_upcoming_birthdays(self, days = 7):
         today = datetime.today().date()
         upcoming_birthdays = []
         
@@ -84,8 +84,8 @@ class AddressBook(UserDict):
                 
                 days_until_birthday = (birthday_this_year - today).days
                 
-                if 0 <= days_until_birthday <= 7:
-                    if birthday_this_year.weekday() >= 5:  # Saturday (5) or Sunday (6)
+                if 0 <= days_until_birthday <= days:
+                    if birthday_this_year.weekday() >= 5:  
                         while birthday_this_year.weekday() >= 5:
                             birthday_this_year += timedelta(days=1)
                     
