@@ -51,9 +51,14 @@ def show_birthday(args, book):
 
 @input_error
 def birthdays(args, book):
-    upcoming = book.get_upcoming_birthdays()
+    try:
+        days = int(args[0]) if args else 7
+    except ValueError:
+        return "Please enter a valid number of days."
+
+    upcoming = book.get_upcoming_birthdays(days)
     if not upcoming:
-        return "No birthdays in the upcoming week."
+        return f"No birthdays in the upcoming {days} days."
     return "\n".join(
         f"{item['name']}: {item['congratulation_date']}" for item in upcoming
     )
