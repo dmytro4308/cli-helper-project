@@ -1,6 +1,6 @@
 from collections import UserDict
 from datetime import datetime, timedelta, date
-from error_handler import PhoneValidationError, BirthdayValidationError
+from error_handler import PhoneValidationError, BirthdayValidationError, AddressValidationError
 import re
 
 class Field:
@@ -37,6 +37,13 @@ class Email(Field):
         # Simple and general regex for emails
         pattern = r"^[\w\.-]+@[\w\.-]+\.\w{2,}$"
         return re.match(pattern, value) is not None
+    
+class Address(Field):
+    def __init__(self, value):
+        if len(value) > 120:
+            raise AddressValidationError() 
+        super().__init__(value)
+
 
 class Record:
     def __init__(self, name):
