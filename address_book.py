@@ -69,7 +69,7 @@ class AddressBook(UserDict):
         if name in self.data:
             del self.data[name]
 
-    def get_upcoming_birthdays(self, days = 5):
+    def get_upcoming_birthdays(self, days=7):
         today = datetime.today().date()
         upcoming_birthdays = []
         
