@@ -52,7 +52,7 @@ def show_birthday(args, book):
 @input_error
 def birthdays(args, book):
     try:
-        days = int(args[0]) if args else 7
+        days = int(args[0]) if args else 5
     except ValueError:
         return "Please enter a valid number of days."
 
