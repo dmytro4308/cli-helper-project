@@ -20,29 +20,42 @@ class Content:
 
     def __str__(self):
         return str(self.value)
-        
+    
+class Tag:
+    def __init__(self, value):
+        if not value:
+            raise ValueError("Tag cannot be empty.")
+        if len(value) > 50:
+            raise ValueError("Tag content cannot exceed 50 characters.")
+        self.value = value
 
+    def __str__(self):
+        return self.value
+        
+        
 class Note:
-    def __init__(self, title, content=None):
+    def __init__(self, title, content=None, tags=None):
         if not title:
             raise ValueError("Title is required")
         self.title = Title(title)
         self.content = Content(content)
-    
+        self.tags = [Tag(tag) for tag in tags] if tags else []
+
     def __str__(self):
         title_str = f"Title: {self.title.value}"
-        content_str = f"Content: {self.content.value}" if self.content else ""
-        return "\n".join(filter(None, [title_str, content_str]))
+        content_str = f"Content: {self.content.value}"
+        tags_str = f"Tags: {', '.join(str(tag) for tag in self.tags)}" if self.tags else ""
+        return "\n".join(filter(None, [title_str, content_str, tags_str]))
     
 
 class NotesBook:
     def __init__(self):
         self.notes = []
 
-    def add_note(self, title, content = None):
+    def add_note(self, title, content = None, tags = None):
         if self.find_note_by_title(title):
             raise ValueError("Note with this title already exists")
-        note = Note(title, content)
+        note = Note(title, content, tags)
         self.notes.append(note)
         return "Note added successfully :)"
 
@@ -57,12 +70,27 @@ class NotesBook:
         
         return None
     
+    def find_notes_by_tag(self, tag_query):
+        if not tag_query or tag_query.strip() == "":
+            raise ValueError("Tag is required for search")
+
+        found_notes = []
+        for note in self.notes:
+            if any(tag.value.lower() == tag_query.lower() for tag in note.tags):
+                found_notes.append(note)
+
+        if not found_notes:
+            return "No notes found with this tag"
+
+        divider = "=" * 50
+        return "\n".join(f"{divider}\n{note}\n{divider}" for note in found_notes)
+    
     def show_note(self, title):
         note = self.find_note_by_title(title)
         if note:
-            print(f"Found note: {note}")
+            return f"Found note:\n{note}"
         else:
-            print("Note not found")
+            return "Note not found"
     
     def change_note(self, title, new_content):
         note = self.find_note_by_title(title)
@@ -87,30 +115,3 @@ class NotesBook:
         divider = "=" * 50
         return "\n".join(f"{divider}\n{note}\n{divider}" for note in self.notes)
         
-
-
-#Check the code. This part will be delated before sending our mentor :)
-
-# title1 = Title ("Ромашка")
-# print(title1)
-# content1 = Content("")
-# print(content1)
-# note1 = Note ("Test the title! secont part, 123", "Check the content. Second part of the note is printed")
-# print(note1)
-# nb = NotesBook()
-# print(nb.notes) 
-
-
-#notes_book = NotesBook()
-#print(notes_book.add_note("First Note", "This is the content of the first note."))
-#print(notes_book.add_note("Second Note", "This is the content of the second note."))
-# print(notes_book.show_all_notes())
-#note = notes_book.find_note_by_title("First note")
-
-#print(notes_book.change_note("First Note", "Updated content for the first note."))
-#print(notes_book.show_all_notes())
-
-#print(notes_book.delete_note("Second Note"))
-#print(notes_book.show_all_notes())
-
-#print(notes_book.delete_note("Third Note"))
