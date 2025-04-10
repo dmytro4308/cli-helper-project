@@ -1,4 +1,4 @@
-from error_handler import input_error, EmailValidationError
+from error_handler import input_error, EmailValidationError, EmaiIsNotFound
 from address_book import Record, AddressBook, Email
 
 @input_error
@@ -99,4 +99,21 @@ def show_all(book):
     if not book.data:
         return "The address book is empty."
     return "\n".join(str(record) for record in book.data.values())
+
+@input_error 
+def remove_email(args, book: AddressBook):
+    if len(args) < 1:
+        return "Error: Provide a name and email witch need to be deleted."
+    name = args[0]
+    name, email, *_ = args
+    record = book.find(name)
+
+    if record is None:
+        return f"Contact '{name}' not found."
+
+    try:
+        record.remove_email(email)
+        return f"Email '{email}' removed from contact '{name}'."
+    except EmaiIsNotFound:
+        return "Email is not found"
 

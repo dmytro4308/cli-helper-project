@@ -10,6 +10,9 @@ class AddressValidationError(Exception):
 class EmailValidationError(Exception):
     """Custom exception for email validation errors."""
     pass
+class EmaiIsNotFound(Exception):
+    """Custom exception for email validation errors."""
+    pass
 
 def input_error(func):
     def inner(*args, **kwargs):
@@ -27,6 +30,8 @@ def input_error(func):
             return "Address is too long. It must be 120 characters or fewer."
         except EmailValidationError:
             return "Please enter Name and email"
+        except EmaiIsNotFound:
+            return "Email is not found"
         except ValueError:
             return "Give me name and phone please."
     return inner

@@ -1,6 +1,6 @@
 from collections import UserDict
 from datetime import datetime, timedelta, date
-from error_handler import PhoneValidationError, BirthdayValidationError, AddressValidationError
+from error_handler import PhoneValidationError, BirthdayValidationError, AddressValidationError, EmaiIsNotFound
 import re
 
 class Field:
@@ -90,10 +90,10 @@ class Record:
     def remove_email(self, email):
         "This method checks if the email number exists in the list and deletes it"
         for e in self.emails:
-              if e.value == email:
-                  self.emails.remove(e)
-                  return
-        raise ValueError("Email is not found") #Need to add this exeption to the error handler
+            if e.value == email:
+                self.emails.remove(e)
+                return
+        raise EmaiIsNotFound
     
     def add_address(self, address_str):
         self.address = Address(address_str)
