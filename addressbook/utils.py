@@ -1,6 +1,6 @@
 import pickle
-from error_handler import input_error
-from address_book import AddressBook
+from .error_handler import input_error
+from .address_book import AddressBook
 
 ADDRESSBOOK_FILE = "addressbook.pkl"
 
