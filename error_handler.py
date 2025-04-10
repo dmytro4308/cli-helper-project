@@ -7,6 +7,9 @@ class BirthdayValidationError(ValueError):
 class AddressValidationError(Exception):
     """Custom exception for address validation errors."""
     pass
+class EmailValidationError(Exception):
+    """Custom exception for email validation errors."""
+    pass
 
 def input_error(func):
     def inner(*args, **kwargs):
@@ -22,6 +25,8 @@ def input_error(func):
             return "Birthday must be in DD.MM.YYYY format."
         except AddressValidationError:
             return "Address is too long. It must be 120 characters or fewer."
+        except EmailValidationError:
+            return "Please enter Name and email"
         except ValueError:
             return "Give me name and phone please."
     return inner

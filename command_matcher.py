@@ -3,7 +3,7 @@ import difflib
 KNOWN_COMMANDS = [
     "add", "change", "phone", "all", 
     "add-birthday", "show-birthday", 
-    "birthdays", "hello", "exit", "close"
+    "birthdays", "hello", "exit", "close", "email"
 ]
 
 def match_command(user_input: str, threshold=0.7):

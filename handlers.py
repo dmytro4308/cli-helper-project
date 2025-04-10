@@ -1,4 +1,4 @@
-from error_handler import input_error
+from error_handler import input_error, EmailValidationError
 from address_book import Record, AddressBook
 
 @input_error
@@ -25,10 +25,10 @@ def edit_contact(args, book: AddressBook):
     return f"Phone number updated for contact {name}."
 
 @input_error
-def get_contact(args, contacts):
+def get_contact(args, book: AddressBook): #changed the argument to the book: AddressBook
     name = args[0]
     record = book.find(name)
-    return name + " - " + record
+    return f"{name}: {', '.join(p.value for p in record.phones)}" #now it rerurns name and all phone numbers
 
 @input_error
 def add_birthday(args, book):
@@ -62,3 +62,16 @@ def birthdays(args, book):
     return "\n".join(
         f"{item['name']}: {item['congratulation_date']}" for item in upcoming
     )
+
+@input_error
+def add_email(args, book: AddressBook):
+    if len(args) < 2:
+        raise EmailValidationError
+    name, email_str, *_ = args
+    name = args[0]
+    record = book.find(name)
+    if record is None:
+        return "Contact not found."
+    record.add_email(email_str)
+    return f"Email added to contact {name}."
+
