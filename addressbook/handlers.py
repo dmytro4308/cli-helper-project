@@ -1,5 +1,5 @@
-from error_handler import input_error
-from address_book import Record, AddressBook
+from .error_handler import input_error
+from .address_book import Record, AddressBook
 
 @input_error
 def add_contact(args, book):

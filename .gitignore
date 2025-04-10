@@ -6,3 +6,6 @@ __pycache__/
 # Ignore virtual environments
 .venv/
 venv/
+
+dist/
+goit_dev_nest_addressbook_cli.egg-info/
