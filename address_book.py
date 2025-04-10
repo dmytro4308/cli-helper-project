@@ -84,7 +84,7 @@ class Record:
                 if e.value == old_email: 
                     e.value = Email(new_email).value
                     return
-          raise ValueError("Email is not found") #Need to add this exeption to the error handler
+          raise ValueError("Email is not found") 
     
     def remove_email(self, email):
         "This method checks if the email number exists in the list and deletes it"

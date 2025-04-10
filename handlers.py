@@ -1,5 +1,5 @@
 from error_handler import input_error, EmailValidationError
-from address_book import Record, AddressBook
+from address_book import Record, AddressBook, Email
 
 @input_error
 def add_contact(args, book):
@@ -74,4 +74,22 @@ def add_email(args, book: AddressBook):
         return "Contact not found."
     record.add_email(email_str)
     return f"Email added to contact {name}."
+
+@input_error
+def edit_email(args, book: AddressBook):
+    if len(args) < 2:
+        return "Error: Provide both a name and an email."
+    name, new_email, *_ = args
+    name = args[0]
+    record = book.find(name)
+
+    if record is None:
+        return f"Contact '{name}' not found."
+
+    if not hasattr(record, "emails") or not record.emails:
+        return f"No email found for contact '{name}' to edit."
+
+    # Replace the first email
+    record.emails[0] = Email(new_email)
+    return f"Email updated for contact '{name}'."
 
