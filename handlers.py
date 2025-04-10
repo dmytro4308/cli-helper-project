@@ -93,3 +93,10 @@ def edit_email(args, book: AddressBook):
     record.emails[0] = Email(new_email)
     return f"Email updated for contact '{name}'."
 
+@input_error
+def show_all(book):
+    """Displays all contacts with their phone numbers."""
+    if not book.data:
+        return "The address book is empty."
+    return "\n".join(str(record) for record in book.data.values())
+

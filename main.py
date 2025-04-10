@@ -1,5 +1,5 @@
 from utils import parse_input, save_data, load_data
-from handlers import add_contact, edit_contact, get_contact, birthdays, add_birthday, show_birthday, add_email, edit_email
+from handlers import add_contact, edit_contact, get_contact, birthdays, add_birthday, show_birthday, add_email, edit_email, show_all
 from address_book import AddressBook
 from command_matcher import match_command, KNOWN_COMMANDS
 
@@ -37,8 +37,7 @@ def main():
             case "phone":
                 print(get_contact(args, book))
             case "all":
-                for contact in book:
-                    print(contact)
+                print(show_all(book))
             case "add-birthday":
                 print(add_birthday(args, book))
             case "show-birthday":
