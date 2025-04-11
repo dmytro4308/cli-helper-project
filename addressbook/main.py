@@ -1,7 +1,8 @@
-from .utils import parse_input, save_addressbook, load_addressbook, load_notebook, save_notebook
-from .address_book.handlers import add_contact, edit_contact, get_contact, birthdays, add_birthday, show_birthday, add_email, edit_email, remove_email, show_all, add_address, edit_address, remove_address
-from .note_book.handlers import add_note, edit_note, delete_note, search_note, find_note_by_tag, list_notes, add_tag, remove_tag
-from .command_matcher import match_command, KNOWN_COMMANDS
+from addressbook.utils import parse_input, save_addressbook, load_addressbook, load_notebook, save_notebook
+from addressbook.address_book.handlers import add_contact, edit_contact, get_contact, birthdays, add_birthday, show_birthday, add_email, edit_email, remove_email, show_all, add_address, edit_address, remove_address
+from addressbook.note_book.handlers import add_note, edit_note, delete_note, search_note, find_note_by_tag, list_notes, add_tag, remove_tag
+from addressbook.command_matcher import match_command, KNOWN_COMMANDS, print_commands
+from colorama import init, Fore, Back, Style
 
 def main():
     addressbook = load_addressbook()
