@@ -49,22 +49,19 @@ class NoteBook:
     def __init__(self):
         self.notes = []
 
-    def add_note(self, title, content = None, tags = None):
-        if self.find_note_by_title(title):
-            raise ValueError("Note with this title already exists")
-        note = Note(title, content, tags)
+    def add_note(self, note):
+        if self.find_note_by_title(note.title):
+            raise ValueError("Note with this title already exists.")
         self.notes.append(note)
         return "Note added successfully :)"
 
     def find_note_by_title(self, title):
-        if not title or title.strip() == "":
-            raise ValueError("Title is required. Please, let me know what to look for")
-        
-        title_lower = title.lower()
+        title_str = title.value if isinstance(title, Title) else title
+        if not title_str or title_str.strip() == "":
+            return None
         for note in self.notes:
-            if note.title.value.lower() == title_lower:
+            if note.title.value == title_str:
                 return note
-        
         return None
 
     def find_notes_by_tag(self, tag_query):
@@ -77,10 +74,9 @@ class NoteBook:
                 found_notes.append(note)
 
         if not found_notes:
-            return "No notes found with this tag"
+            return None
 
-        divider = "=" * 50
-        return "\n".join(f"{divider}\n{note}\n{divider}" for note in found_notes)
+        return found_notes
     
     def show_note(self, title):
         note = self.find_note_by_title(title)
@@ -111,3 +107,23 @@ class NoteBook:
         
         divider = "=" * 50
         return "\n".join(f"{divider}\n{note}\n{divider}" for note in self.notes)
+
+
+    def add_tag_to_note(self, title, tag_value):
+        note = self.find_note_by_title(title)
+        if not note:
+            raise ValueError("Note not found")
+        if any(tag.value == tag_value for tag in note.tags):
+            raise ValueError("Tag already exists for this note")
+        note.tags.append(Tag(tag_value))
+        return f"Tag '{tag_value}' added to note '{title}'"
+
+    def remove_tag_from_note(self, title, tag_value):
+        note = self.find_note_by_title(title)
+        if not note:
+            raise ValueError("Note not found")
+        for tag in note.tags:
+            if tag.value == tag_value:
+                note.tags.remove(tag)
+                return f"Tag '{tag_value}' removed from note '{title}'"
+        raise ValueError("Tag not found in the note")

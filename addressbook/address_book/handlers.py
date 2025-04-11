@@ -79,13 +79,13 @@ def add_email(args, book: AddressBook):
 def edit_email(args, book: AddressBook):
     if len(args) < 3:
         return Fore.YELLOW + "Error: Provide both a name and an email." + Style.RESET_ALL
-    name, new_email, *_ = args
+    name, old_email, new_email, *_ = args
     record = book.find(name)
 
     if record is None:
         return Fore.RED + f"Contact '{name}' not found." + Style.RESET_ALL
 
-    record.edit_email(new_email)
+    record.edit_email(old_email, new_email)
     return Fore.GREEN + f"Email updated for contact '{name}'." + Style.RESET_ALL
 
 @input_error 
@@ -133,14 +133,14 @@ def edit_address(args, book: AddressBook):
 def remove_address(args, book: AddressBook):
     if len(args) < 1:
         return Fore.YELLOW + "Error: Provide a name and address witch need to be deleted." + Style.RESET_ALL
-    name, address, *_ = args
+    name, *_ = args
     record = book.find(name)
 
     if record is None:
         return Fore.RED + f"Contact '{name}' not found." + Style.RESET_ALL
 
     try:
-        record.remove_address(address)
+        record.remove_address()
         return Fore.GREEN + f"Address '{address}' removed from contact '{name}'." + Style.RESET_ALL
     except EmailIsNotFound:
         return Fore.RED + "Address is not found" + Style.RESET_ALL
