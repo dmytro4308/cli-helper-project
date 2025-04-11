@@ -5,7 +5,8 @@ KNOWN_COMMANDS = [
     "add-birthday", "show-birthday", 
     "birthdays", "hello", "exit", "close",
     "add-email", "edit-email", "remove-email",
-    "add-address", "edit-address", "remove-address"
+    "add-address", "edit-address", "remove-address",
+    "add-note", "edit-note", "delete-note", "search-notes", "find-note-by-tag", "list-notes"
 ]
 
 def match_command(user_input: str, threshold=0.7):

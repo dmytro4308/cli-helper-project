@@ -1,10 +1,11 @@
-from .utils import parse_input, save_data, load_data
-from .handlers import add_contact, edit_contact, get_contact, birthdays, add_birthday, show_birthday, add_email, edit_email, show_all, remove_email, show_all, add_address, edit_address, remove_address
-from .address_book import AddressBook
+from .utils import parse_input, save_addressbook, load_addressbook, load_notebook, save_notebook
+from .address_book.handlers import add_contact, edit_contact, get_contact, birthdays, add_birthday, show_birthday, add_email, edit_email, remove_email, show_all, add_address, edit_address, remove_address
+from .note_book.handlers import add_note, edit_note, delete_note, search_notes, find_note_by_tag, list_notes
 from .command_matcher import match_command, KNOWN_COMMANDS
 
 def main():
-    book = load_data()
+    addressbook = load_addressbook()
+    notebook = load_notebook()
     print("Welcome to the assistant bot!")
     while True:
         user_input = input("Enter a command: ")
@@ -31,31 +32,43 @@ def main():
             case "hello":
                 print("How can I help you?")
             case "add":
-                print(add_contact(args, book))
+                print(add_contact(args,addressbook))
             case "change":
-                print(edit_contact(args, book))
+                print(edit_contact(args,addressbook))
             case "phone":
-                print(get_contact(args, book))
+                print(get_contact(args,addressbook))
             case "all":
-                print(show_all(args, book))
+                print(show_all(args,addressbook))
             case "add-birthday":
-                print(add_birthday(args, book))
+                print(add_birthday(args,addressbook))
             case "show-birthday":
-                print(show_birthday(args, book))
+                print(show_birthday(args,addressbook))
             case "birthdays":
-                print(birthdays(args, book))
+                print(birthdays(args,addressbook))
             case "add-email":
-                print(add_email(args, book))
+                print(add_email(args,addressbook))
             case "edit-email":
-                print(edit_email(args, book))
+                print(edit_email(args,addressbook))
             case "remove-email":
-                print(remove_email(args, book))
+                print(remove_email(args,addressbook))
             case "add-address":
-                print(add_address(args, book))
+                print(add_address(args,addressbook))
             case "edit-address":
-                print(edit_address(args, book))
+                print(edit_address(args,addressbook))
             case "remove-address":
-                print(remove_address(args, book))
+                print(remove_address(args,addressbook))
+            case "add-note":
+                print(add_note(args, notebook))
+            case "edit-note":
+                print(edit_note(args, notebook))
+            case "delete-note":
+                print(delete_note(args, notebook))
+            case "search-notes":
+                print(search_note(args, notebook))
+            case "find-note-by-tag":
+                print(find_note_by_tag(args, notebook))
+            case "list-notes": 
+                print(list_notes(args, notebook))
             case _:
                 print("Invalid command.")
 
