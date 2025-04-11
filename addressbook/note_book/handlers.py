@@ -34,7 +34,7 @@ def delete_note(args, notebook):
 
 
 @input_error
-def search_notes(args, notebook):
+def search_note(args, notebook):
     if not args:
         return "Please provide a title."
     title = args[0]

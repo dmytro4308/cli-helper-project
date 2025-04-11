@@ -1,6 +1,6 @@
 from .utils import parse_input, save_addressbook, load_addressbook, load_notebook, save_notebook
 from .address_book.handlers import add_contact, edit_contact, get_contact, birthdays, add_birthday, show_birthday, add_email, edit_email, remove_email, show_all, add_address, edit_address, remove_address
-from .note_book.handlers import add_note, edit_note, delete_note, search_notes, find_note_by_tag, list_notes
+from .note_book.handlers import add_note, edit_note, delete_note, search_note, find_note_by_tag, list_notes
 from .command_matcher import match_command, KNOWN_COMMANDS
 
 def main():
@@ -26,7 +26,8 @@ def main():
 
         match command:
             case x if x in ["close", "exit"]:
-                save_data(book)
+                save_addressbook(addressbook)
+                save_notebook(notebook)
                 print("Good bye!")
                 break
             case "hello":

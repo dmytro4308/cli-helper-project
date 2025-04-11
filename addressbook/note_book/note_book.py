@@ -49,22 +49,19 @@ class NoteBook:
     def __init__(self):
         self.notes = []
 
-    def add_note(self, title, content = None, tags = None):
-        if self.find_note_by_title(title):
-            raise ValueError("Note with this title already exists")
-        note = Note(title, content, tags)
+    def add_note(self, note):
+        if self.find_note_by_title(note.title):
+            raise ValueError("Note with this title already exists.")
         self.notes.append(note)
         return "Note added successfully :)"
 
     def find_note_by_title(self, title):
-        if not title or title.strip() == "":
-            raise ValueError("Title is required. Please, let me know what to look for")
-        
-        title_lower = title.lower()
+        title_str = title.value if isinstance(title, Title) else title
+        if not title_str or title_str.strip() == "":
+            return None
         for note in self.notes:
-            if note.title.value.lower() == title_lower:
+            if note.title.value == title_str:
                 return note
-        
         return None
 
     def find_notes_by_tag(self, tag_query):
