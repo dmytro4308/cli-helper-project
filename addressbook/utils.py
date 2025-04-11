@@ -1,7 +1,7 @@
 import pickle
-from .error_handler import input_error
-from .address_book.address_book import AddressBook
-from .note_book.note_book import NoteBook
+from addressbook.error_handler import input_error
+from addressbook.address_book.address_book import AddressBook
+from addressbook.note_book.note_book import NoteBook
 
 ADDRESSBOOK_FILE = "addressbook.pkl"
 NOTEBOOK_FILE = "notebook.pkl"
