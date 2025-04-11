@@ -78,13 +78,13 @@ def add_email(args, book: AddressBook):
 def edit_email(args, book: AddressBook):
     if len(args) < 2:
         return "Error: Provide both a name and an email."
-    name, new_email, *_ = args
+    name, old_email, new_email, *_ = args
     record = book.find(name)
 
     if record is None:
         return f"Contact '{name}' not found."
 
-    record.edit_email(new_email)
+    record.edit_email(old_email, new_email)
     return f"Email updated for contact '{name}'."
 
 @input_error 
@@ -131,16 +131,16 @@ def edit_address(args, book: AddressBook):
 @input_error 
 def remove_address(args, book: AddressBook):
     if len(args) < 1:
-        return "Error: Provide a name and address witch need to be deleted."
-    name, address, *_ = args
+        return "Error: Provide a name for address to be deleted."
+    name, *_ = args
     record = book.find(name)
 
     if record is None:
         return f"Contact '{name}' not found."
 
     try:
-        record.remove_address(address)
-        return f"Address '{address}' removed from contact '{name}'."
+        record.remove_address()
+        return f"Address removed from contact '{name}'."
     except EmaiIsNotFound:
         return "Address is not found"
 

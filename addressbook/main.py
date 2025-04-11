@@ -1,6 +1,6 @@
 from .utils import parse_input, save_addressbook, load_addressbook, load_notebook, save_notebook
 from .address_book.handlers import add_contact, edit_contact, get_contact, birthdays, add_birthday, show_birthday, add_email, edit_email, remove_email, show_all, add_address, edit_address, remove_address
-from .note_book.handlers import add_note, edit_note, delete_note, search_note, find_note_by_tag, list_notes
+from .note_book.handlers import add_note, edit_note, delete_note, search_note, find_note_by_tag, list_notes, add_tag, remove_tag
 from .command_matcher import match_command, KNOWN_COMMANDS
 
 def main():
@@ -70,6 +70,10 @@ def main():
                 print(find_note_by_tag(args, notebook))
             case "list-notes": 
                 print(list_notes(args, notebook))
+            case "add-tag": 
+                print(add_tag(args, notebook))
+            case "remove-tag": 
+                print(remove_tag(args, notebook))
             case _:
                 print("Invalid command.")
 
