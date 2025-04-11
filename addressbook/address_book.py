@@ -1,6 +1,6 @@
 from collections import UserDict
 from datetime import datetime, timedelta, date
-from .error_handler import PhoneValidationError, BirthdayValidationError, AddressValidationError
+from .error_handler import PhoneValidationError, BirthdayValidationError, AddressValidationError, EmailIsNotFound
 import re
 
 class Field:
@@ -31,10 +31,9 @@ class Email(Field):
         if self.is_valid_email(value):
             super().__init__(value)
         else:
-            raise ValueError("Invalid email address: {value}")   #Need to add this exeption to the error handler
+            raise ValueError("Invalid email address: {value}")
 
     def is_valid_email(self, value):
-        # Simple and general regex for emails
         pattern = r"^[\w\.-]+@[\w\.-]+\.\w{2,}$"
         return re.match(pattern, value) is not None
     
@@ -44,14 +43,13 @@ class Address(Field):
             raise AddressValidationError() 
         super().__init__(value)
 
-
 class Record:
     def __init__(self, name):
         self.name = Name(name)
         self.phones = []
         self.birthday = None
         self.emails = []
-        self.birthday = None
+        self.address = None
 
     def add_phone(self, phone):
         self.phones.append(Phone(phone))
@@ -79,40 +77,37 @@ class Record:
         self.emails.append(Email(email_str))
 
     def edit_email(self, old_email, new_email):
-          "This method checks that if the old email is exist in the list and edit it "
           for e in self.emails:
                 if e.value == old_email: 
                     e.value = Email(new_email).value
                     return
-          raise ValueError("Email is not found") #Need to add this exeption to the error handler
+          raise ValueError("Email is not found")
     
     def remove_email(self, email):
-        "This method checks if the email number exists in the list and deletes it"
         for e in self.emails:
-              if e.value == email:
-                  self.emails.remove(e)
-                  return
-        raise ValueError("Email is not found") #Need to add this exeption to the error handler
+            if e.value == email:
+                self.emails.remove(e)
+                return
+        raise EmailIsNotFound
     
     def add_address(self, address_str):
         self.address = Address(address_str)
 
     def edit_address(self, new_address):
         if hasattr(self, "address"):
-            self.address = Address(new_address)  # Replace with new validated address
+            self.address = Address(new_address)
         else:
             raise ValueError("No existing address to edit.")
         
     def remove_address(self):
         self.address = None
         
-    
     def __str__(self):
         phones = '; '.join(p.value for p in self.phones)
         bday = f", birthday: {self.birthday.value.strftime('%d.%m.%Y')}" if self.birthday else ""
         emails = '; '.join(e.value for e in self.emails)
-        address = f"Address: {self.address}" if self.address else ""
-        return f"Contact name: {self.name.value}, phones: {phones}, {emails},{address},{bday}"
+        address = f"Address: {getattr(self, 'address', '')}" if getattr(self, 'address', '') else ""
+        return f"Contact name: {self.name.value}, phones: {phones} {emails} {address} {bday}"
 
 class AddressBook(UserDict):
     def add_record(self, record):

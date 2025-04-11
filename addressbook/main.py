@@ -1,5 +1,5 @@
 from .utils import parse_input, save_data, load_data
-from .handlers import add_contact, edit_contact, get_contact, birthdays, add_birthday, show_birthday
+from .handlers import add_contact, edit_contact, get_contact, birthdays, add_birthday, show_birthday, add_email, edit_email, show_all, remove_email, show_all, add_address, edit_address, remove_address
 from .address_book import AddressBook
 from .command_matcher import match_command, KNOWN_COMMANDS
 
@@ -37,14 +37,25 @@ def main():
             case "phone":
                 print(get_contact(args, book))
             case "all":
-                for contact in book:
-                    print(contact)
+                print(show_all(args, book))
             case "add-birthday":
                 print(add_birthday(args, book))
             case "show-birthday":
                 print(show_birthday(args, book))
             case "birthdays":
                 print(birthdays(args, book))
+            case "add-email":
+                print(add_email(args, book))
+            case "edit-email":
+                print(edit_email(args, book))
+            case "remove-email":
+                print(remove_email(args, book))
+            case "add-address":
+                print(add_address(args, book))
+            case "edit-address":
+                print(edit_address(args, book))
+            case "remove-address":
+                print(remove_address(args, book))
             case _:
                 print("Invalid command.")
 
