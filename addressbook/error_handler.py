@@ -1,3 +1,5 @@
+from colorama import Fore, Style
+
 class PhoneValidationError(ValueError):
     """Custom exception for phone validation errors."""
     pass
@@ -23,19 +25,19 @@ def input_error(func):
         try:
             return func(*args, **kwargs)
         except KeyError:
-            return "Contact not found."
+            return Fore.RED + "Contact not found." + Style.RESET_ALL
         except IndexError:
-            return "Enter user name."
+            return Fore.YELLOW + "Enter user name." + Style.RESET_ALL
         except PhoneValidationError:
-            return "Phone must have exactly 10 digits."
+            return Fore.YELLOW + "Phone must have exactly 10 digits." + Style.RESET_ALL
         except BirthdayValidationError:
-            return "Birthday must be in DD.MM.YYYY format."
+            return Fore.YELLOW + "Birthday must be in DD.MM.YYYY format." + Style.RESET_ALL
         except AddressValidationError:
-            return "Address is too long. It must be 120 characters or fewer."
+            return Fore.YELLOW + "Address is too long. It must be 120 characters or fewer." + Style.RESET_ALL
         except EmailValidationError:
-            return "Please enter Name and email"
+            return Fore.YELLOW + "Please enter Name and email" + Style.RESET_ALL
         except EmailIsNotFound:
-            return "Email is not found"
+            return Fore.RED + "Email is not found" + Style.RESET_ALL
         except ValueError:
-            return "Give me name and phone please."
+            return Fore.YELLOW + "Give me name and phone please." + Style.RESET_ALL
     return inner
