@@ -1,5 +1,5 @@
 from addressbook.error_handler import input_error, EmailValidationError, EmailIsNotFound
-from .address_book import Record, AddressBook, Email
+from addressbook.address_book.address_book import Record, AddressBook, Email
 
 @input_error
 def add_contact(args, book):

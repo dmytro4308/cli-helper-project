@@ -1,4 +1,4 @@
-from .note_book import NoteBook, Note
+from addressbook.note_book.note_book import NoteBook, Note
 from addressbook.error_handler import input_error, EmailValidationError, EmailIsNotFound
 
 @input_error
