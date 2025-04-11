@@ -1,5 +1,5 @@
 from addressbook.error_handler import input_error, EmailValidationError, EmailIsNotFound
-from .address_book import Record, AddressBook, Email
+from addressbook.address_book.address_book import Record, AddressBook, Email
 from colorama import init, Fore, Back, Style
 
 @input_error
