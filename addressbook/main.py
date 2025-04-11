@@ -1,14 +1,17 @@
 from .utils import parse_input, save_addressbook, load_addressbook, load_notebook, save_notebook
 from .address_book.handlers import add_contact, edit_contact, get_contact, birthdays, add_birthday, show_birthday, add_email, edit_email, remove_email, show_all, add_address, edit_address, remove_address
 from .note_book.handlers import add_note, edit_note, delete_note, search_notes, find_note_by_tag, list_notes
-from .command_matcher import match_command, KNOWN_COMMANDS
+from .command_matcher import match_command, KNOWN_COMMANDS, print_commands
+from colorama import Fore, Style, Back
 
 def main():
     addressbook = load_addressbook()
     notebook = load_notebook()
-    print("Welcome to the assistant bot!")
+    print_commands()
+    print()
+    print(Back.CYAN + Fore.WHITE + "Welcome to the assistant bot!" + Style.RESET_ALL)
     while True:
-        user_input = input("Enter a command: ")
+        user_input = input(Fore.MAGENTA + "Enter a command: " + Style.RESET_ALL)
         command, *args = parse_input(user_input)
 
         if command not in KNOWN_COMMANDS:
@@ -18,10 +21,10 @@ def main():
                 if confirm.lower() == "y":
                     command = suggestion
                 else:
-                    print("Unknown command.")
+                    print(Fore.RED + "Unknown command." + Style.RESET_ALL)
                     return
             else:
-                print("Unknown command.")
+                print(Fore.RED + "Unknown command." + Style.RESET_ALL)
                 return
 
         match command:
@@ -30,7 +33,7 @@ def main():
                 print("Good bye!")
                 break
             case "hello":
-                print("How can I help you?")
+                print(Fore.MAGENTA + "How can I help you?" + Style.RESET_ALL)
             case "add":
                 print(add_contact(args,addressbook))
             case "change":
@@ -70,7 +73,7 @@ def main():
             case "list-notes": 
                 print(list_notes(args, notebook))
             case _:
-                print("Invalid command.")
+                print(Fore.RED + "Invalid command." + Style.RESET_ALL)
 
 if __name__ == "__main__":
     main()
