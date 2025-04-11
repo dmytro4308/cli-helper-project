@@ -9,7 +9,6 @@ class Title:
     def __str__(self):
         return str(self.value)
     
-
 class Content: 
     def __init__(self, value):
         if value is None:
@@ -46,8 +45,7 @@ class Note:
         tags_str = f"Tags: {', '.join(str(tag) for tag in self.tags)}" if self.tags else ""
         return "\n".join(filter(None, [title_str, content_str, tags_str]))
     
-
-class NotesBook:
+class NoteBook:
     def __init__(self):
         self.notes = []
 

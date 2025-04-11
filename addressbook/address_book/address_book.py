@@ -1,6 +1,6 @@
 from collections import UserDict
 from datetime import datetime, timedelta, date
-from .error_handler import PhoneValidationError, BirthdayValidationError, AddressValidationError, EmailIsNotFound
+from addressbook.error_handler import PhoneValidationError, BirthdayValidationError, AddressValidationError, EmailIsNotFound
 import re
 
 class Field:

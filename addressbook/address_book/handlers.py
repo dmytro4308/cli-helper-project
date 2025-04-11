@@ -1,4 +1,4 @@
-from .error_handler import input_error, EmailValidationError, EmailIsNotFound
+from addressbook.error_handler import input_error, EmailValidationError, EmailIsNotFound
 from .address_book import Record, AddressBook, Email
 
 @input_error
