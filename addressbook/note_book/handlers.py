@@ -54,6 +54,7 @@ def find_note_by_tag(args, notebook):
         return Fore.YELLOW + f"No notes with tag '{tag}' found." + Style.RESET_ALL
     return "\n".join(str(note) for note in results)
 
+@input_error
 def list_notes(args, notebook):
     if not notebook.notes:
         return Fore.YELLOW + "No notes available." + Style.RESET_ALL
