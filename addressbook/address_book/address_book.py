@@ -1,6 +1,6 @@
 from collections import UserDict
 from datetime import datetime, timedelta, date
-from addressbook.error_handler import PhoneValidationError, BirthdayValidationError, AddressValidationError, EmailIsNotFound
+from addressbook.error_handler import PhoneValidationError, BirthdayValidationError, AddressValidationError, EmailNotFound
 import re
 
 class Field:
@@ -31,7 +31,7 @@ class Email(Field):
         if self.is_valid_email(value):
             super().__init__(value)
         else:
-            raise ValueError("Invalid email address: {value}")
+            raise EmailValidationError
 
     def is_valid_email(self, value):
         pattern = r"^[\w\.-]+@[\w\.-]+\.\w{2,}$"
@@ -81,24 +81,21 @@ class Record:
                 if e.value == old_email: 
                     e.value = Email(new_email).value
                     return
-          raise ValueError("Email is not found")
+          raise EmailNotFound
     
     def remove_email(self, email):
         for e in self.emails:
             if e.value == email:
                 self.emails.remove(e)
                 return
-        raise EmailIsNotFound
+        raise EmailNotFound
     
     def add_address(self, address_str):
         self.address = Address(address_str)
 
-    def edit_address(self, new_address):
-        if hasattr(self, "address"):
-            self.address = Address(new_address)
-        else:
-            raise ValueError("No existing address to edit.")
-        
+    def edit_address(self, address_str):
+        self.address = Address(address_str)
+
     def remove_address(self):
         self.address = None
         
