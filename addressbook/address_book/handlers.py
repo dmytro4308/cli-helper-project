@@ -1,4 +1,4 @@
-from addressbook.error_handler import input_error, EmailValidationError, EmailIsNotFound
+from addressbook.error_handler import input_error, EmailValidationError, EmailNotFound
 from addressbook.address_book.address_book import Record, AddressBook, Email
 from colorama import init, Fore, Back, Style
 
@@ -88,7 +88,7 @@ def edit_email(args, book: AddressBook):
     record.edit_email(old_email, new_email)
     return Fore.GREEN + f"Email updated for contact '{name}'." + Style.RESET_ALL
 
-@input_error 
+@input_error
 def remove_email(args, book: AddressBook):
     if len(args) < 1:
         return Fore.YELLOW + "Error: Provide a name and email witch need to be deleted." + Style.RESET_ALL
@@ -101,7 +101,7 @@ def remove_email(args, book: AddressBook):
     try:
         record.remove_email(email)
         return Fore.GREEN + f"Email '{email}' removed from contact '{name}'." + Style.RESET_ALL
-    except EmailIsNotFound:
+    except EmailNotFound:
         return Fore.RED + "Email is not found" + Style.RESET_ALL
 
 @input_error
@@ -142,7 +142,7 @@ def remove_address(args, book: AddressBook):
     try:
         record.remove_address()
         return Fore.GREEN + f"Address '{address}' removed from contact '{name}'." + Style.RESET_ALL
-    except EmailIsNotFound:
+    except EmailNotFound:
         return Fore.RED + "Address is not found" + Style.RESET_ALL
 
 

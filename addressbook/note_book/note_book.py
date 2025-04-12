@@ -1,9 +1,11 @@
+from addressbook.error_handler import TagValidationError, ContentValidationError, TitleValidationError, TagNotFound, TagExists, NoteNotFound, NoteExists
+
 class Title:
     def __init__(self, value):
         if not value:
-            raise ValueError("Note title cannot be empty.")
+            raise TitleValidationError
         if len(value) > 100:
-            raise ValueError("Note title cannot exceed 100 characters.")
+            raise TitleValidationError
         self.value = value
 
     def __str__(self):
@@ -14,7 +16,7 @@ class Content:
         if value is None:
             value = ""
         if len (value) > 500:
-            raise ValueError("Note content cannot exceed 500 characters.")
+            raise ContentValidationError
         self.value = value
 
     def __str__(self):
@@ -23,9 +25,9 @@ class Content:
 class Tag:
     def __init__(self, value):
         if not value:
-            raise ValueError("Tag cannot be empty.")
+            raise TagValidationError
         if len(value) > 50:
-            raise ValueError("Tag content cannot exceed 50 characters.")
+            raise TagValidationError
         self.value = value
 
     def __str__(self):
@@ -34,7 +36,7 @@ class Tag:
 class Note:
     def __init__(self, title, content=None, tags=None):
         if not title:
-            raise ValueError("Title is required")
+            raise TitleValidationError
         self.title = Title(title)
         self.content = Content(content)
         self.tags = [Tag(tag) for tag in tags] if tags else []
@@ -66,7 +68,7 @@ class NoteBook:
 
     def find_notes_by_tag(self, tag_query):
         if not tag_query or tag_query.strip() == "":
-            raise ValueError("Tag is required for search")
+            raise TagValidationError
 
         found_notes = []
         for note in self.notes:
@@ -112,18 +114,18 @@ class NoteBook:
     def add_tag_to_note(self, title, tag_value):
         note = self.find_note_by_title(title)
         if not note:
-            raise ValueError("Note not found")
+            raise NoteNotFound
         if any(tag.value == tag_value for tag in note.tags):
-            raise ValueError("Tag already exists for this note")
+            raise TagExists
         note.tags.append(Tag(tag_value))
         return f"Tag '{tag_value}' added to note '{title}'"
 
     def remove_tag_from_note(self, title, tag_value):
         note = self.find_note_by_title(title)
         if not note:
-            raise ValueError("Note not found")
+            raise NoteNotFound
         for tag in note.tags:
             if tag.value == tag_value:
                 note.tags.remove(tag)
                 return f"Tag '{tag_value}' removed from note '{title}'"
-        raise ValueError("Tag not found in the note")
+        raise TagNotFound
