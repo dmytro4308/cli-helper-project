@@ -53,6 +53,7 @@ def find_note_by_tag(args, notebook):
         return f"No notes with tag '{tag}' found."
     return "\n".join(str(note) for note in results)
 
+@input_error
 def list_notes(args, notebook):
     if not notebook.notes:
         return "No notes available."
