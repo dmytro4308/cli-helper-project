@@ -22,10 +22,10 @@ def main():
                     command = suggestion
                 else:
                     print(Fore.RED + "Unknown command." + Style.RESET_ALL)
-                    return
+                    continue
             else:
                 print(Fore.RED + "Unknown command." + Style.RESET_ALL)
-                return
+                continue
 
         match command:
             case x if x in ["close", "exit"]:

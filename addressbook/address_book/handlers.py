@@ -4,6 +4,16 @@ from colorama import init, Fore, Back, Style
 
 @input_error
 def add_contact(args, book):
+    """
+    Adds a new contact or updates an existing one with a phone number.
+
+    Args:
+        args (list): [name, phone]
+        book (AddressBook): The address book instance.
+
+    Returns:
+        str: Success message.
+    """
     name, phone, *_ = args
     record = book.find(name)
     message = Fore.GREEN + "Contact updated." + Style.RESET_ALL
@@ -17,6 +27,16 @@ def add_contact(args, book):
 
 @input_error
 def edit_contact(args, book: AddressBook):
+    """
+    Edits a phone number for an existing contact.
+
+    Args:
+        args (list): [name, old_phone, new_phone]
+        book (AddressBook): The address book instance.
+
+    Returns:
+        str: Success or error message.
+    """
     name, old_phone, new_phone, *_ = args
     record = book.find(name)
     if record is None:
@@ -27,12 +47,32 @@ def edit_contact(args, book: AddressBook):
 
 @input_error
 def get_contact(args, book: AddressBook):
+    """
+    Retrieves contact info by name.
+
+    Args:
+        args (list): [name]
+        book (AddressBook): The address book instance.
+
+    Returns:
+        str: Formatted contact string with phone numbers.
+    """
     name = args[0]
     record = book.find(name)
     return f"{name}: {', '.join(p.value for p in record.phones)}"
 
 @input_error
 def add_birthday(args, book):
+    """
+    Adds a birthday to a contact.
+
+    Args:
+        args (list): [name, birthday]
+        book (AddressBook): The address book instance.
+
+    Returns:
+        str: Success or error message.
+    """
     name, bday_str, *_ = args
     record = book.find(name)
     if record is None:
@@ -42,6 +82,16 @@ def add_birthday(args, book):
 
 @input_error
 def show_birthday(args, book):
+    """
+    Shows a contact's birthday.
+
+    Args:
+        args (list): [name]
+        book (AddressBook): The address book instance.
+
+    Returns:
+        str: Birthday or error message.
+    """
     name, *_ = args
     record = book.find(name)
     if record is None:
@@ -52,6 +102,16 @@ def show_birthday(args, book):
 
 @input_error
 def birthdays(args, book):
+    """
+    Lists upcoming birthdays in the given number of days.
+
+    Args:
+        args (list): [days]
+        book (AddressBook): The address book instance.
+
+    Returns:
+        str: List of upcoming birthdays or info message.
+    """
     try:
         days = int(args[0]) if args else 7
     except ValueError:
@@ -66,6 +126,16 @@ def birthdays(args, book):
 
 @input_error
 def add_email(args, book: AddressBook):
+    """
+    Adds an email address to a contact.
+
+    Args:
+        args (list): [name, email]
+        book (AddressBook): The address book instance.
+
+    Returns:
+        str: Success or error message.
+    """
     if len(args) < 2:
         raise EmailValidationError
     name, email_str, *_ = args
@@ -77,6 +147,16 @@ def add_email(args, book: AddressBook):
 
 @input_error
 def edit_email(args, book: AddressBook):
+    """
+    Edits an existing email for a contact.
+
+    Args:
+        args (list): [name, old_email, new_email]
+        book (AddressBook): The address book instance.
+
+    Returns:
+        str: Success or error message.
+    """
     if len(args) < 3:
         return Fore.YELLOW + "Error: Provide both a name and an email." + Style.RESET_ALL
     name, old_email, new_email, *_ = args
@@ -90,6 +170,16 @@ def edit_email(args, book: AddressBook):
 
 @input_error
 def remove_email(args, book: AddressBook):
+    """
+    Removes an email from a contact.
+
+    Args:
+        args (list): [name, email]
+        book (AddressBook): The address book instance.
+
+    Returns:
+        str: Success or error message.
+    """
     if len(args) < 1:
         return Fore.YELLOW + "Error: Provide a name and email witch need to be deleted." + Style.RESET_ALL
     name, email, *_ = args
@@ -106,6 +196,16 @@ def remove_email(args, book: AddressBook):
 
 @input_error
 def add_address(args, book: AddressBook):
+    """
+    Adds an address to a contact.
+
+    Args:
+        args (list): [name, address...]
+        book (AddressBook): The address book instance.
+
+    Returns:
+        str: Success or error message.
+    """
     if len(args) < 2:
         raise EmailValidationError
     name, *address_parts = args
@@ -118,6 +218,16 @@ def add_address(args, book: AddressBook):
 
 @input_error
 def edit_address(args, book: AddressBook):
+    """
+    Edits the address of a contact.
+
+    Args:
+        args (list): [name, address...]
+        book (AddressBook): The address book instance.
+
+    Returns:
+        str: Success or error message.
+    """
     if len(args) < 2:
         return Fore.YELLOW + "Error: Provide both a name and an address." + Style.RESET_ALL
     name, *address_parts = args
@@ -131,6 +241,16 @@ def edit_address(args, book: AddressBook):
 
 @input_error 
 def remove_address(args, book: AddressBook):
+    """
+    Removes the address from a contact.
+
+    Args:
+        args (list): [name]
+        book (AddressBook): The address book instance.
+
+    Returns:
+        str: Success or error message.
+    """
     if len(args) < 1:
         return Fore.YELLOW + "Error: Provide a name and address witch need to be deleted." + Style.RESET_ALL
     name, *_ = args
