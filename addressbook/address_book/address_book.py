@@ -1,6 +1,6 @@
 from collections import UserDict
 from datetime import datetime, timedelta, date
-from addressbook.error_handler import PhoneValidationError, BirthdayValidationError, AddressValidationError, EmailNotFound
+from addressbook.error_handler import PhoneValidationError, BirthdayValidationError, AddressValidationError, EmailNotFound, EmailValidationError
 import re
 
 class Field:
@@ -53,12 +53,13 @@ class Email(Field):
     Uses a regular expression to check for proper format.
     """
     def __init__(self, value):
-        if self.is_valid_email(value):
+        if Email.is_valid_email(value):
             super().__init__(value)
         else:
             raise EmailValidationError
 
-    def is_valid_email(self, value):
+    @staticmethod
+    def is_valid_email(value):
         pattern = r"^[\w\.-]+@[\w\.-]+\.\w{2,}$"
         return re.match(pattern, value) is not None
     
@@ -153,10 +154,10 @@ class Record:
     def __str__(self):
         """Returns a formatted string representation of the contact."""
         phones = '; '.join(p.value for p in self.phones)
-        bday = f", birthday: {self.birthday.value.strftime('%d.%m.%Y')}" if self.birthday else ""
-        emails = '; '.join(e.value for e in self.emails)
-        address = f"Address: {getattr(self, 'address', '')}" if getattr(self, 'address', '') else ""
-        return f"Contact name: {self.name.value}, phones: {phones} {emails} {address} {bday}"
+        bday = f"| Birthday: {self.birthday.value.strftime('%d.%m.%Y')}" if self.birthday else ""
+        emails = f"| Email: " + "; ".join(e.value for e in self.emails) if self.emails else ""
+        address = f"| Address: {getattr(self, 'address', '')}" if getattr(self, 'address', '') else ""
+        return f"Contact name: {self.name.value} | phones: {phones} {emails} {address} {bday}"
 
 class AddressBook(UserDict):
     """
