@@ -45,7 +45,7 @@ class Note:
         title_str = f"Title: {self.title.value}"
         content_str = f"Content: {self.content.value}"
         tags_str = f"Tags: {', '.join(str(tag) for tag in self.tags)}" if self.tags else ""
-        return "\n".join(filter(None, [title_str, content_str, tags_str]))
+        return " | ".join(filter(None, [title_str, content_str, tags_str]))
     
 class NoteBook:
     def __init__(self):

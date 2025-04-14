@@ -12,7 +12,7 @@ def add_note(args, notebook):
         return Fore.YELLOW + "Note text is required." + Style.RESET_ALL
     note = Note(title, text)
     notebook.add_note(note)
-    return "Note added."
+    return Fore.GREEN + "Note added." + Style.RESET_ALL
 
 
 @input_error
@@ -22,7 +22,7 @@ def edit_note(args, notebook):
     title = args[0]
     new_text = " ".join(args[1:])
     notebook.change_note(title, new_text)
-    return f"Note '{title}' updated."
+    return Fore.GREEN + f"Note '{title}' updated." + Style.RESET_ALL
 
 
 @input_error
@@ -31,7 +31,7 @@ def delete_note(args, notebook):
         return Fore.YELLOW + "Usage: delete-note [title]" + Style.RESET_ALL
     title = args[0]
     result = notebook.delete_note(title)
-    return result
+    return  Fore.GREEN + "Note deleted" + Style.RESET_ALL
 
 
 @input_error
@@ -66,7 +66,7 @@ def add_tag(args, notebook):
         return Fore.YELLOW + "Usage: add-tag [note_title] [tag]" + Style.RESET_ALL
     title = args[0]
     tag_value = args[1]
-    return notebook.add_tag_to_note(title, tag_value)
+    return Fore.GREEN + notebook.add_tag_to_note(title, tag_value) + Style.RESET_ALL
 
 @input_error
 def remove_tag(args, notebook):
@@ -74,4 +74,4 @@ def remove_tag(args, notebook):
         return Fore.YELLOW + "Usage: remove-tag [note_title] [tag]" + Style.RESET_ALL
     title = args[0]
     tag_value = args[1]
-    return notebook.remove_tag_from_note(title, tag_value)
+    return Fore.GREEN + notebook.remove_tag_from_note(title, tag_value) + Style.RESET_ALL

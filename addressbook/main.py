@@ -9,7 +9,7 @@ def main():
     notebook = load_notebook()
     print_commands()
     print()
-    print(Back.CYAN + Fore.WHITE + "Welcome to the assistant bot!" + Style.RESET_ALL)
+    print(Back.CYAN + Fore.BLACK + "Welcome to the assistant bot version 0.3.0!" + Style.RESET_ALL)
     while True:
         user_input = input(Fore.MAGENTA + "Enter a command: " + Style.RESET_ALL)
         command, *args = parse_input(user_input)
@@ -17,7 +17,7 @@ def main():
         if command not in KNOWN_COMMANDS:
             suggestion = match_command(command)
             if suggestion:
-                confirm = input(f"Did you mean '{suggestion}'? (y/n): ")
+                confirm = input(Fore.YELLOW + f"Did you mean '{suggestion}'? (y/n): " + Style.RESET_ALL)
                 if confirm.lower() == "y":
                     command = suggestion
                 else:
@@ -31,7 +31,7 @@ def main():
             case x if x in ["close", "exit"]:
                 save_addressbook(addressbook)
                 save_notebook(notebook)
-                print("Good bye!")
+                print(Back.CYAN + Fore.BLACK + "Good bye!" + Style.RESET_ALL)
                 break
             case "hello":
                 print(Fore.MAGENTA + "How can I help you?" + Style.RESET_ALL)

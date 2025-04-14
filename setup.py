@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="goit-dev-nest-addressbook-cli",
-    version="0.2.3",
+    version="0.3.0",
     packages=find_packages(),
     install_requires=[
         "colorama>=0.4.0",

@@ -261,7 +261,7 @@ def remove_address(args, book: AddressBook):
 
     try:
         record.remove_address()
-        return Fore.GREEN + f"Address '{address}' removed from contact '{name}'." + Style.RESET_ALL
+        return Fore.GREEN + f"Address removed from contact '{name}'." + Style.RESET_ALL
     except EmailNotFound:
         return Fore.RED + "Address is not found" + Style.RESET_ALL
 
